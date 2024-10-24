@@ -104,7 +104,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-8812123d-e2d7",
-          "S3Key": "serverless/eDarkstore-Test/dev/1729760209263-2024-10-24T08:56:49.263Z/eDarkstore-Test.zip"
+          "S3Key": "serverless/eDarkstore-Test/dev/1729794392688-2024-10-24T18:26:32.688Z/eDarkstore-Test.zip"
         },
         "Handler": "handler.get_uf",
         "Runtime": "python3.11",
@@ -127,7 +127,7 @@
       "Properties": {
         "Code": {
           "S3Bucket": "serverless-framework-deployments-us-east-1-8812123d-e2d7",
-          "S3Key": "serverless/eDarkstore-Test/dev/1729760209263-2024-10-24T08:56:49.263Z/eDarkstore-Test.zip"
+          "S3Key": "serverless/eDarkstore-Test/dev/1729794392688-2024-10-24T18:26:32.688Z/eDarkstore-Test.zip"
         },
         "Handler": "handler.get_dollar",
         "Runtime": "python3.11",
@@ -145,24 +145,24 @@
         "GetDollarLogGroup"
       ]
     },
-    "GetUFLambdaVersionwyB9Qce98XD3izBPosDIQAx2xCS9JXFEwq79BvIcY4": {
+    "GetUFLambdaVersionQEqYn7yp5oRdsCRiZp6vHC8nSK1IpC3bnZjsXiAvxxU": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetUFLambdaFunction"
         },
-        "CodeSha256": "G37rCsrar7eJJaoXxWwc2Dp9+JyRb5vZQpg1AX5ogH4="
+        "CodeSha256": "e3QHSxXplJlXqUY3SUkTVWyoIZKZ28lw8DCkOJW39d0="
       }
     },
-    "GetDollarLambdaVersionWUsfmu9PdLZXgnLn5QVISX11js4TV7pMIMkS1tsOgE": {
+    "GetDollarLambdaVersionqKjmJMiKTp0l8S44acFOXdBzimZ1uzULWolGtzVJAQM": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetDollarLambdaFunction"
         },
-        "CodeSha256": "G37rCsrar7eJJaoXxWwc2Dp9+JyRb5vZQpg1AX5ogH4="
+        "CodeSha256": "e3QHSxXplJlXqUY3SUkTVWyoIZKZ28lw8DCkOJW39d0="
       }
     },
     "GetDollarEventsRuleSchedule1": {
@@ -275,7 +275,7 @@
         "GetUFLambdaPermissionApiGateway"
       ]
     },
-    "ApiGatewayDeployment1729760202306": {
+    "ApiGatewayDeployment1729794381870": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -335,7 +335,7 @@
     "GetUFLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetUFLambdaVersionwyB9Qce98XD3izBPosDIQAx2xCS9JXFEwq79BvIcY4"
+        "Ref": "GetUFLambdaVersionQEqYn7yp5oRdsCRiZp6vHC8nSK1IpC3bnZjsXiAvxxU"
       },
       "Export": {
         "Name": "sls-eDarkstore-Test-dev-GetUFLambdaFunctionQualifiedArn"
@@ -344,7 +344,7 @@
     "GetDollarLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetDollarLambdaVersionWUsfmu9PdLZXgnLn5QVISX11js4TV7pMIMkS1tsOgE"
+        "Ref": "GetDollarLambdaVersionqKjmJMiKTp0l8S44acFOXdBzimZ1uzULWolGtzVJAQM"
       },
       "Export": {
         "Name": "sls-eDarkstore-Test-dev-GetDollarLambdaFunctionQualifiedArn"

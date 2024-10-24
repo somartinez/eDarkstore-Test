@@ -23,7 +23,7 @@ class Mindicador:
 
 def create_pdf(value, date):
 
-    pdf_file_name = f"uf_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
+    pdf_file_name = f"/tmp/uf_{datetime.datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf"
 
     pdf = FPDF()
 
