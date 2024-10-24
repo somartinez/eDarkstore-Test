@@ -1,0 +1,45 @@
+service: eDarkstore-Test
+
+provider:
+  name: aws
+  runtime: python3.11
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:PutItem
+      Resource: arn:aws:dynamodb:us-east-1:156041429324:table/eDarkstore-Dollar
+
+functions:
+  getUF:
+    handler: handler.get_uf
+    events:
+      - http:
+          path: get-uf
+          method: post
+
+  getDollar:
+    handler: handler.get_dollar
+    events:
+      - schedule: rate(1 day)
+
+resources:
+  Resources:
+
+plugins:
+  - serverless-offline
+  - serverless-dynamodb-local
+  - serverless-s3-local
+  - serverless-python-requirements
+
+package:
+  exclude:
+      - node_modules/**
+      - venv/**
+      - _pycache_/**
+      - buckets/**
+      - 2024-10-24T03:00:00.000Z/**
+      - uf_*.pdf
+      - README.md
+      - package-lock.json
+      - package.json

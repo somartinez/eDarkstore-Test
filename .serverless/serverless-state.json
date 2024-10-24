@@ -1,0 +1,490 @@
+{
+  "service": {
+    "service": "eDarkstore-Test",
+    "serviceObject": {
+      "name": "eDarkstore-Test"
+    },
+    "provider": {
+      "name": "aws",
+      "runtime": "python3.11",
+      "region": "us-east-1",
+      "iamRoleStatements": [
+        {
+          "Effect": "Allow",
+          "Action": [
+            "dynamodb:PutItem"
+          ],
+          "Resource": "arn:aws:dynamodb:us-east-1:156041429324:table/eDarkstore-Dollar"
+        }
+      ],
+      "stage": "dev",
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "GetUFLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/eDarkstore-Test-dev-getUF"
+            }
+          },
+          "GetDollarLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/eDarkstore-Test-dev-getDollar"
+            }
+          },
+          "IamRoleLambdaExecution": {
+            "Type": "AWS::IAM::Role",
+            "Properties": {
+              "AssumeRolePolicyDocument": {
+                "Version": "2012-10-17",
+                "Statement": [
+                  {
+                    "Effect": "Allow",
+                    "Principal": {
+                      "Service": [
+                        "lambda.amazonaws.com"
+                      ]
+                    },
+                    "Action": [
+                      "sts:AssumeRole"
+                    ]
+                  }
+                ]
+              },
+              "Policies": [
+                {
+                  "PolicyName": {
+                    "Fn::Join": [
+                      "-",
+                      [
+                        "eDarkstore-Test",
+                        "dev",
+                        "lambda"
+                      ]
+                    ]
+                  },
+                  "PolicyDocument": {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogStream",
+                          "logs:CreateLogGroup",
+                          "logs:TagResource"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/eDarkstore-Test-dev*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:PutLogEvents"
+                        ],
+                        "Resource": [
+                          {
+                            "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/eDarkstore-Test-dev*:*:*"
+                          }
+                        ]
+                      },
+                      {
+                        "$ref": "$[\"service\"][\"provider\"][\"iamRoleStatements\"][0]"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "Path": "/",
+              "RoleName": {
+                "Fn::Join": [
+                  "-",
+                  [
+                    "eDarkstore-Test",
+                    "dev",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    "lambdaRole"
+                  ]
+                ]
+              }
+            }
+          },
+          "GetUFLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-8812123d-e2d7",
+                "S3Key": "serverless/eDarkstore-Test/dev/1729760209263-2024-10-24T08:56:49.263Z/eDarkstore-Test.zip"
+              },
+              "Handler": "handler.get_uf",
+              "Runtime": "python3.11",
+              "FunctionName": "eDarkstore-Test-dev-getUF",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetUFLogGroup"
+            ]
+          },
+          "GetDollarLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": "serverless-framework-deployments-us-east-1-8812123d-e2d7",
+                "S3Key": "serverless/eDarkstore-Test/dev/1729760209263-2024-10-24T08:56:49.263Z/eDarkstore-Test.zip"
+              },
+              "Handler": "handler.get_dollar",
+              "Runtime": "python3.11",
+              "FunctionName": "eDarkstore-Test-dev-getDollar",
+              "MemorySize": 1024,
+              "Timeout": 6,
+              "Role": {
+                "Fn::GetAtt": [
+                  "IamRoleLambdaExecution",
+                  "Arn"
+                ]
+              }
+            },
+            "DependsOn": [
+              "GetDollarLogGroup"
+            ]
+          },
+          "GetUFLambdaVersionwyB9Qce98XD3izBPosDIQAx2xCS9JXFEwq79BvIcY4": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetUFLambdaFunction"
+              },
+              "CodeSha256": "G37rCsrar7eJJaoXxWwc2Dp9+JyRb5vZQpg1AX5ogH4="
+            }
+          },
+          "GetDollarLambdaVersionWUsfmu9PdLZXgnLn5QVISX11js4TV7pMIMkS1tsOgE": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetDollarLambdaFunction"
+              },
+              "CodeSha256": "G37rCsrar7eJJaoXxWwc2Dp9+JyRb5vZQpg1AX5ogH4="
+            }
+          },
+          "GetDollarEventsRuleSchedule1": {
+            "Type": "AWS::Events::Rule",
+            "Properties": {
+              "ScheduleExpression": "rate(1 day)",
+              "State": "ENABLED",
+              "Targets": [
+                {
+                  "Arn": {
+                    "Fn::GetAtt": [
+                      "GetDollarLambdaFunction",
+                      "Arn"
+                    ]
+                  },
+                  "Id": "getDollarSchedule"
+                }
+              ]
+            }
+          },
+          "GetDollarLambdaPermissionEventsRuleSchedule1": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetDollarLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "events.amazonaws.com",
+              "SourceArn": {
+                "Fn::GetAtt": [
+                  "GetDollarEventsRuleSchedule1",
+                  "Arn"
+                ]
+              }
+            }
+          },
+          "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+              "Name": "dev-eDarkstore-Test",
+              "EndpointConfiguration": {
+                "Types": [
+                  "EDGE"
+                ]
+              },
+              "Policy": ""
+            }
+          },
+          "ApiGatewayResourceGetDashuf": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "get-uf",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodGetDashufPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceGetDashuf"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "GetUFLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "GetUFLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayDeployment1729760202306": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodGetDashufPost"
+            ]
+          },
+          "GetUFLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetUFLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": "serverless-framework-deployments-us-east-1-8812123d-e2d7",
+            "Export": {
+              "Name": "sls-eDarkstore-Test-dev-ServerlessDeploymentBucketName"
+            }
+          },
+          "GetUFLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetUFLambdaVersionwyB9Qce98XD3izBPosDIQAx2xCS9JXFEwq79BvIcY4"
+            },
+            "Export": {
+              "Name": "sls-eDarkstore-Test-dev-GetUFLambdaFunctionQualifiedArn"
+            }
+          },
+          "GetDollarLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetDollarLambdaVersionWUsfmu9PdLZXgnLn5QVISX11js4TV7pMIMkS1tsOgE"
+            },
+            "Export": {
+              "Name": "sls-eDarkstore-Test-dev-GetDollarLambdaFunctionQualifiedArn"
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/dev"
+                ]
+              ]
+            },
+            "Export": {
+              "Name": "sls-eDarkstore-Test-dev-ServiceEndpoint"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "plugins": [
+      "serverless-offline",
+      "serverless-dynamodb-local",
+      "serverless-s3-local",
+      "serverless-python-requirements"
+    ],
+    "pluginsData": {},
+    "functions": {
+      "getUF": {
+        "handler": "handler.get_uf",
+        "events": [
+          {
+            "http": {
+              "path": "get-uf",
+              "method": "post",
+              "integration": "AWS_PROXY"
+            }
+          }
+        ],
+        "name": "eDarkstore-Test-dev-getUF",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.11",
+        "vpc": {},
+        "versionLogicalId": "GetUFLambdaVersionwyB9Qce98XD3izBPosDIQAx2xCS9JXFEwq79BvIcY4"
+      },
+      "getDollar": {
+        "handler": "handler.get_dollar",
+        "events": [
+          {
+            "schedule": "rate(1 day)"
+          }
+        ],
+        "name": "eDarkstore-Test-dev-getDollar",
+        "package": {},
+        "memory": 1024,
+        "timeout": 6,
+        "runtime": "python3.11",
+        "vpc": {},
+        "versionLogicalId": "GetDollarLambdaVersionWUsfmu9PdLZXgnLn5QVISX11js4TV7pMIMkS1tsOgE"
+      }
+    },
+    "resources": {
+      "Resources": {},
+      "Outputs": {}
+    },
+    "configValidationMode": "warn",
+    "serviceFilename": "serverless.yml",
+    "initialServerlessConfig": {
+      "service": "eDarkstore-Test",
+      "provider": {
+        "$ref": "$[\"service\"][\"provider\"]"
+      },
+      "functions": {
+        "$ref": "$[\"service\"][\"functions\"]"
+      },
+      "resources": {
+        "$ref": "$[\"service\"][\"resources\"]"
+      },
+      "plugins": {
+        "$ref": "$[\"service\"][\"plugins\"]"
+      },
+      "package": {
+        "exclude": [
+          "node_modules/**",
+          "venv/**",
+          "_pycache_/**",
+          "buckets/**",
+          "2024-10-24T03:00:00.000Z/**",
+          "uf_*.pdf",
+          "README.md",
+          "package-lock.json",
+          "package.json"
+        ],
+        "artifactsS3KeyDirname": "serverless/eDarkstore-Test/dev/code-artifacts",
+        "deploymentBucket": "serverless-framework-deployments-us-east-1-8812123d-e2d7",
+        "artifact": "/Users/sergioimartinez/Desktop/eDarkstore/eDarkstore-Test/.serverless/eDarkstore-Test.zip",
+        "artifactDirectoryName": "serverless/eDarkstore-Test/dev/1729760209263-2024-10-24T08:56:49.263Z"
+      }
+    },
+    "appId": null,
+    "orgId": null,
+    "layers": {},
+    "artifact": "/Users/sergioimartinez/Desktop/eDarkstore/eDarkstore-Test/.serverless/eDarkstore-Test.zip"
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/eDarkstore-Test/dev/1729760209263-2024-10-24T08:56:49.263Z",
+    "artifact": "eDarkstore-Test.zip"
+  }
+}
