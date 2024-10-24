@@ -4,4 +4,4 @@ node_modules/
 venv/
 *.pdf
 package-lock.json
-serverless/
+.serverless/
