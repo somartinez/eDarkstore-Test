@@ -83,11 +83,7 @@ def get_dollar(event, context):
     # 'serie' almacena en la posicion 0 la informacion del día actual (Last in First out)
 
     dolar_value = int(dolar_data['serie'][0]['valor'])
-    print(f'Valor dolarrrrr {dolar_value}')
 
-    decimal_dolar_value = Decimal(dolar_value)
-
-    print(f'decimal dolar valueee {decimal_dolar_value}')
     dolar_date = dolar_data['serie'][0]['fecha']
 
     formatted_dolar_date = datetime.datetime.strptime(dolar_date, "%Y-%m-%dT%H:%M:%S.%fZ").strftime("%d-%m-%Y %H:%M")
@@ -103,6 +99,5 @@ def get_dollar(event, context):
 
     return {
         "statusCode": 200,
-        # "body": f"UF value saved to PDF: {pdf_file_name}"
         "body": f"Dolar value: {dolar_value}, para el dia {formatted_dolar_date}"
     }

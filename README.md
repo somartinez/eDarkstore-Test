@@ -1,7 +1,10 @@
 # eDarkstore-Test
 
-
 ## Descripción de las Imágenes
+
+### Output console
+
+![console](./images/image_console_output.png)
 
 ### Imagen Lambda
 ![Lambda](./images/image_Lambda.png)
